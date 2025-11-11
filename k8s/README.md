@@ -34,14 +34,15 @@ SSH to the cluster and copy datasets to the PersistentVolume:
 ssh bernardomiranda@pugna.snes.2advanced.dev -p 51927 -i ~/.ssh/cloudvm_2023028021_ed25519
 
 # Navigate to your PV directory
-cd /home/bernardomiranda/project2-pv2
+cd /home/bernardomiranda/project2-pv
 
 # Create data subdirectory
 mkdir -p data
 
-# Copy datasets (from wherever you have them)
-cp /path/to/2023_spotify_ds1.csv data/
-cp /path/to/2023_spotify_ds2.csv data/
+# Copy datasets from cluster location
+cp /home/datasets/spotify/2023_spotify_ds1.csv data/
+cp /home/datasets/spotify/2023_spotify_ds2.csv data/
+cp /home/datasets/spotify/2023_spotify_songs.csv data/
 ```
 
 ## Manual Deployment (Testing)
@@ -162,7 +163,7 @@ argocd app sync playlist-recommender-bernardomiranda
 1. Copy new dataset to PV:
    ```bash
    ssh bernardomiranda@pugna.snes.2advanced.dev -p 51927
-   cp /path/to/2023_spotify_ds2.csv /home/bernardomiranda/project2-pv2/data/
+   cp /home/datasets/spotify/2023_spotify_ds2.csv /home/bernardomiranda/project2-pv/data/
    ```
 
 2. Update `ml-job.yaml`:
@@ -238,11 +239,11 @@ argocd app logs playlist-recommender-bernardomiranda
 ### PVC not binding
 - Check PVC selector matches PV labels
 - Verify storage class name
-- Check: `kubectl -n bernardomiranda describe pvc project2-pvc-bernardomiranda`
+- Check: `kubectl -n bernardomiranda describe pvc project2-pv-bernardomiranda`
 
 ### ML Job not completing
 - Check logs: `kubectl -n bernardomiranda logs -l component=ml`
-- Verify dataset exists in /home/bernardomiranda/project2-pv2/data/
+- Verify dataset exists in /home/bernardomiranda/project2-pv/data/
 - Check resource limits if OOMKilled
 
 ### ArgoCD not syncing
