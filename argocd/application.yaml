@@ -14,7 +14,7 @@ spec:
   source:
     # IMPORTANT: Replace this with your actual Git repository URL
     # Example: https://github.com/yourusername/playlist-recommender-k8s
-    repoURL: https://github.com/GITHUB_USERNAME/playlist-recommender-k8s
+    repoURL: https://github.com/bernardoam04/TP2
     # Branch to track
     targetRevision: main
     # Path to the Kubernetes YAML files in the repo
