@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+*.egg-info/
+dist/
+build/
+
+# Data files (too large for Git)
+*.csv
+*.pkl
+models/
+docker-test/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Logs
+*.log
+
+# Local testing
+api_server.log
+
+# Temporary files
+*.tmp
+*.bak
+response.out
