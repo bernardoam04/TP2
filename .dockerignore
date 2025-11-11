@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+
+# Data files (should be mounted as volumes)
+*.csv
+*.pkl
+models/
+2023_spotify*.csv
+
+# Git
+.git/
+.gitignore
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Documentation
+README.md
+step-by-step.md
+*.pdf
+
+# Test files
+tests/
+*.log
+
+# Build artifacts
+build/
+dist/
+*.egg-info/

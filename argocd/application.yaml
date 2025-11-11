@@ -1,0 +1,49 @@
+# ArgoCD Application Configuration
+# This tells ArgoCD how to deploy and manage your application
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: playlist-recommender-bernardomiranda
+  # ArgoCD namespace (typically 'argocd')
+  namespace: argocd
+spec:
+  # Project name - should be <username>-project
+  project: bernardomiranda-project
+
+  # Source - where ArgoCD gets the Kubernetes manifests
+  source:
+    # IMPORTANT: Replace this with your actual Git repository URL
+    # Example: https://github.com/yourusername/playlist-recommender-k8s
+    repoURL: https://github.com/GITHUB_USERNAME/playlist-recommender-k8s
+    # Branch to track
+    targetRevision: main
+    # Path to the Kubernetes YAML files in the repo
+    path: k8s
+
+  # Destination - where to deploy
+  destination:
+    # Kubernetes cluster URL (use this for the same cluster ArgoCD is running on)
+    server: https://kubernetes.default.svc
+    # Your Kubernetes namespace
+    namespace: bernardomiranda
+
+  # Sync policy - how ArgoCD keeps your app in sync
+  syncPolicy:
+    # Automatic sync - ArgoCD automatically deploys changes from Git
+    automated:
+      # Automatically create namespace if it doesn't exist
+      selfHeal: true
+      # Automatically sync when repo changes
+      prune: true
+    # Sync options
+    syncOptions:
+    - CreateNamespace=true
+    # Automatically prune resources (important for ML jobs)
+    - PruneLast=true
+
+  # Ignore differences in certain fields (optional)
+  ignoreDifferences:
+  - group: batch
+    kind: Job
+    jsonPointers:
+    - /spec/template/metadata/labels

@@ -1,0 +1,21 @@
+# PersistentVolumeClaim for shared model storage
+# This claims the PersistentVolume provided by the cluster
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: project2-pvc-bernardomiranda
+  namespace: bernardomiranda
+spec:
+  # Selector to match the specific PV created for this user
+  selector:
+    matchLabels:
+      namespace: bernardomiranda
+  # Storage class name specific to this user
+  storageClassName: default-storage-class-bernardomiranda
+  # Access mode - multiple pods can read/write
+  accessModes:
+    - ReadWriteMany
+  # Request storage capacity
+  resources:
+    requests:
+      storage: 1Gi

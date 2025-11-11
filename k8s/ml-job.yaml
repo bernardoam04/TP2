@@ -1,0 +1,66 @@
+# Job for ML Model Generation
+# This job runs when triggered to generate/update the recommendation model
+# NOTE: The job name should change with each execution to avoid conflicts
+# You can update the name or add a suffix (e.g., ml-job-v1, ml-job-v2, etc.)
+apiVersion: batch/v1
+kind: Job
+metadata:
+  # IMPORTANT: Change this name for each new run (e.g., ml-job-v1, ml-job-v2, ml-job-ds2)
+  name: ml-job-v1
+  namespace: bernardomiranda
+  labels:
+    app: bernardomiranda-playlist-recommender
+    component: ml
+spec:
+  # Don't retry failed jobs automatically
+  backoffLimit: 2
+  template:
+    metadata:
+      labels:
+        app: bernardomiranda-playlist-recommender
+        component: ml
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: ml-generator
+        # Docker image from DockerHub
+        image: bernardoam04/playlist-recommender-ml:0.1
+        imagePullPolicy: Always
+        env:
+        # Dataset configuration
+        # IMPORTANT: Update DATASET_PATH when switching datasets (ds1 -> ds2)
+        - name: DATASET_PATH
+          value: "/data/2023_spotify_ds1.csv"
+        # Where to save the generated model
+        - name: MODEL_OUTPUT_PATH
+          value: "/models/recommendation_model.pkl"
+        # FP-Growth parameters
+        - name: MIN_SUPPORT
+          value: "0.05"
+        - name: MIN_CONFIDENCE
+          value: "0.5"
+        # Sampling configuration
+        # Set to 0 to use all data, or a number like 10000 for sampling
+        - name: SAMPLE_SIZE
+          value: "10000"
+        # Mount shared volumes
+        volumeMounts:
+        # Dataset location (you'll need to upload datasets here)
+        - name: model-storage
+          mountPath: /models
+        - name: model-storage
+          mountPath: /data
+          subPath: data
+        # Resource limits
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "500m"
+          limits:
+            memory: "2Gi"
+            cpu: "1000m"
+      # Define volumes
+      volumes:
+      - name: model-storage
+        persistentVolumeClaim:
+          claimName: project2-pvc-bernardomiranda

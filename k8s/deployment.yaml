@@ -1,0 +1,76 @@
+# Deployment for the Flask API Server
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: playlist-recommender-api
+  namespace: bernardomiranda
+  labels:
+    app: bernardomiranda-playlist-recommender
+    component: api
+spec:
+  # Number of replicas (can be changed to test scaling)
+  replicas: 2
+  selector:
+    matchLabels:
+      app: bernardomiranda-playlist-recommender
+      component: api
+  template:
+    metadata:
+      labels:
+        app: bernardomiranda-playlist-recommender
+        component: api
+    spec:
+      containers:
+      - name: api
+        # Docker image from DockerHub
+        image: bernardoam04/playlist-recommender-api:0.1
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5000
+          name: http
+        env:
+        # Path to the model file in the shared volume
+        - name: MODEL_PATH
+          value: "/models/recommendation_model.pkl"
+        # How often to check for model updates (seconds)
+        - name: CHECK_MODEL_INTERVAL
+          value: "5"
+        # Server version (update this when deploying new code)
+        - name: SERVER_VERSION
+          value: "0.1"
+        # Host and port for Flask
+        - name: HOST
+          value: "0.0.0.0"
+        - name: PORT
+          value: "5000"
+        # Mount the shared volume
+        volumeMounts:
+        - name: model-storage
+          mountPath: /models
+        # Resource limits (adjust as needed)
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        # Readiness probe - check if API is ready
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 5000
+          initialDelaySeconds: 10
+          periodSeconds: 5
+        # Liveness probe - check if API is alive
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 5000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+      # Define the shared volume
+      volumes:
+      - name: model-storage
+        persistentVolumeClaim:
+          claimName: project2-pvc-bernardomiranda
