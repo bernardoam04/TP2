@@ -23,7 +23,7 @@ spec:
       containers:
       - name: api
         # Docker image from DockerHub
-        image: bernardoam04/playlist-recommender-api:265df6d
+        image: bernardoam04/playlist-recommender-api:28a49aa
         imagePullPolicy: Always
         ports:
         - containerPort: 5000
