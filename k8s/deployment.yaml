@@ -8,7 +8,7 @@ metadata:
     app: bernardomiranda-playlist-recommender
     component: api
 spec:
-  # Number of replicas (can be changed to test scaling)
+  # Number of replicas (can be changed to test scaling) new version
   replicas: 3
   selector:
     matchLabels:
