@@ -6,7 +6,7 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   # IMPORTANT: Change this name for each new run (e.g., ml-job-v1, ml-job-v2, ml-job-ds2)
-  name: ml-job-ds1-v2
+  name: ml-job-ds1-v4
   namespace: bernardomiranda
   labels:
     app: bernardomiranda-playlist-recommender
@@ -24,7 +24,7 @@ spec:
       containers:
       - name: ml-generator
         # Docker image from DockerHub
-        image: bernardoam04/playlist-recommender-ml:0.2
+        image: bernardoam04/playlist-recommender-ml:latest
         imagePullPolicy: Always
         env:
         # Dataset configuration
