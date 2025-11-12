@@ -6,7 +6,7 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   # IMPORTANT: Change this name for each new run (e.g., ml-job-v1, ml-job-v2, ml-job-ds2)
-  name: ml-job-v1
+  name: ml-job-ds1-v2
   namespace: bernardomiranda
   labels:
     app: bernardomiranda-playlist-recommender
@@ -24,7 +24,7 @@ spec:
       containers:
       - name: ml-generator
         # Docker image from DockerHub
-        image: bernardoam04/playlist-recommender-ml:0.1
+        image: bernardoam04/playlist-recommender-ml:0.2
         imagePullPolicy: Always
         env:
         # Dataset configuration
@@ -54,10 +54,10 @@ spec:
         # Resource limits
         resources:
           requests:
-            memory: "512Mi"
+            memory: "384Mi"
             cpu: "500m"
           limits:
-            memory: "2Gi"
+            memory: "1Gi"
             cpu: "1000m"
       # Define volumes
       volumes:

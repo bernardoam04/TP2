@@ -23,7 +23,7 @@ spec:
       containers:
       - name: api
         # Docker image from DockerHub
-        image: bernardoam04/playlist-recommender-api:0.1
+        image: bernardoam04/playlist-recommender-api:0.2
         imagePullPolicy: Always
         ports:
         - containerPort: 5000
@@ -37,7 +37,7 @@ spec:
           value: "5"
         # Server version (update this when deploying new code)
         - name: SERVER_VERSION
-          value: "0.1"
+          value: "0.2"
         # Host and port for Flask
         - name: HOST
           value: "0.0.0.0"
@@ -55,6 +55,13 @@ spec:
           limits:
             memory: "512Mi"
             cpu: "500m"
+        # Startup probe - wait for model to load (up to 2 minutes)
+        startupProbe:
+          httpGet:
+            path: /health
+            port: 5000
+          failureThreshold: 24
+          periodSeconds: 5
         # Readiness probe - check if API is ready
         readinessProbe:
           httpGet:

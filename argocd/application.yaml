@@ -35,6 +35,13 @@ spec:
       selfHeal: true
       # Automatically sync when repo changes
       prune: true
+    # Retry policy for failed syncs
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m
     # Sync options
     syncOptions:
     - CreateNamespace=true
