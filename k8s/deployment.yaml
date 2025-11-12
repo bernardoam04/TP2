@@ -9,7 +9,7 @@ metadata:
     component: api
 spec:
   # Number of replicas (can be changed to test scaling)
-  replicas: 2
+  replicas: 3
   selector:
     matchLabels:
       app: bernardomiranda-playlist-recommender
