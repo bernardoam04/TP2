@@ -6,7 +6,7 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   # IMPORTANT: Change this name for each new run (e.g., ml-job-v1, ml-job-v2, ml-job-ds2)
-  name: ml-job-ds1-v6
+  name: ml-job-ds2-v1
   namespace: bernardomiranda
   labels:
     app: bernardomiranda-playlist-recommender
@@ -30,7 +30,7 @@ spec:
         # Dataset configuration
         # IMPORTANT: Update DATASET_PATH when switching datasets (ds1 -> ds2)
         - name: DATASET_PATH
-          value: "/data/2023_spotify_ds1.csv"
+          value: "/data/2023_spotify_ds2.csv"
         # Where to save the generated model
         - name: MODEL_OUTPUT_PATH
           value: "/models/recommendation_model.pkl"
